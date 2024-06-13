@@ -83,7 +83,8 @@ public class Main {
      */
     static Optional<Person> findMostYoungestPerson(List<Person> people) {
         return people.stream()
-                .min((x, y) -> Integer.compare(x.getAge(), (y.getAge())));
+//                .min((x, y) -> Integer.compare(x.getAge(), (y.getAge())));
+                .min(Comparator.comparingInt(Person::getAge));
 
     }
 
@@ -92,7 +93,8 @@ public class Main {
      */
     static Optional<Department> findMostExpensiveDepartment(List<Person> people) {
         return people.stream()
-                .max((x, y) -> Double.compare(x.getSalary(), (y.getSalary())))
+//                .max((x, y) -> Double.compare(x.getSalary(), (y.getSalary())))
+                .max(Comparator.comparingDouble(Person::getSalary))
                 .map(Person::getDepart);
     }
 
