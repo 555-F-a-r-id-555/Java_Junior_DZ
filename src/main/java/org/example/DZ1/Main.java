@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 public class Main {
 
+
     public Person person;
     public Department department;
 
