@@ -7,7 +7,7 @@ public class Main {
     public static void main(String[] args) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
 
         Class<?> car = Class.forName("Car");
-        Constructor<?>[] constructor = new Constructor[]{car.getConstructor()};
+        Constructor<?>[] constructor = car.getConstructors();
 
         Object bmw = constructor[0].newInstance("BMW");
         System.out.println(bmw);
