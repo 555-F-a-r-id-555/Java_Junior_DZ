@@ -6,6 +6,17 @@ import java.util.stream.Collectors;
 
 public class Main {
 
+    //        Черный: \u001B[30m
+    //        Красный: \u001B[31m
+    //        Зеленый: \u001B[32m
+    //        Желтый: \u001B[33m
+    //        Синий: \u001B[34m
+    //        Пурпурный: \u001B[35m
+    //        Голубой: \u001B[36m
+    //        Белый: \u001B[37m
+    // ANSI escape коды для цветов
+    String resetColor = "\u001B[0m";  // Сброс цвета
+
 
     public Person person;
     public Department department;
@@ -42,34 +53,49 @@ public class Main {
 
             persons.add(person);
         }
-
+        System.out.print("\u001B[34m");
         for (Person person : persons) {
+
             System.out.println(person);
         }
-        System.out.println("--------------------------------");
+        System.out.println("\u001B[32m");
+        System.out.println("-----------------1.Найти самого молодого сотрудника--------------------------------------------------------");
+        System.out.print("\u001B[33m");
         System.out.println(findMostYoungestPerson(persons).get());
-        System.out.println("--------------------------------");
+        System.out.println("\u001B[32m");
+        System.out.println("-----------------2.Найти департамент, в котором работает сотрудник с самой большой зарплатой---------------");
+        System.out.print("\u001B[33m");
         System.out.println(findMostExpensiveDepartment(persons).get().getName());
-        System.out.println("--------------------------------");
+        System.out.println("\u001B[32m");
+        System.out.println("-----------------3.Сгруппировать сотрудников по департаментам----------------------------------------------");
+        System.out.print("\u001B[33m");
 //        System.out.println(groupByDepartment(persons));
         for (Map.Entry<Department, List<Person>> item : groupByDepartment(persons).entrySet()) {
             System.out.println(item.getKey() + ":" + item.getValue());
         }
-        System.out.println("--------------------------------");
+        System.out.println("\u001B[32m");
+        System.out.println("-----------------4.Сгруппировать сотрудников по названиям департаментов------------------------------------");
+        System.out.print("\u001B[33m");
 //        System.out.println(groupByDepartment(persons));
         for (Map.Entry<String, List<Person>> item : groupByDepartmentName(persons).entrySet()) {
             System.out.println(item.getKey() + ":" + item.getValue());
         }
-        System.out.println("--------------------------------");
+        System.out.println("\u001B[32m");
+        System.out.println("-----------------5.В каждом департаменте найти самого старшего сотрудника------------------------------------");
+        System.out.print("\u001B[33m");
         for (Map.Entry<String, Person> item : getDepartmentOldestPerson(persons).entrySet()) {
             System.out.println(item.getKey() + ":" + item.getValue());
         }
-        System.out.println("--------------------------------");
+        System.out.println("\u001B[32m");
+        System.out.println("-----------------6.Найти сотрудников с минимальными зарплатами в своем отделе---------------------------------");
+        System.out.print("\u001B[33m");
         List<Person> cheapPersons = cheapPersonsInDepartment(persons);
         for (Person person : cheapPersons) {
             System.out.println(person);
         }
-        System.out.println("--------------------------------");
+        System.out.println("\u001B[32m");
+        System.out.println("-----------------6.Найти сотрудников с минимальными зарплатами в своем отделе---------------------------------");
+        System.out.print("\u001B[33m");
         List<Person> cheapPersons2 = cheapPersonsInDepartment2(persons);
         for (Person person : cheapPersons2) {
             System.out.println(person);
