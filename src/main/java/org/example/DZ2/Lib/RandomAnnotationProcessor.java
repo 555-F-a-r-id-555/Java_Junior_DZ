@@ -35,7 +35,6 @@ public class RandomAnnotationProcessor {
     }
 
 
-
     public static void processAnnotationForData(Object obj) {
         java.util.Random random = new java.util.Random();
         Class<?> objClass = obj.getClass();
@@ -46,12 +45,13 @@ public class RandomAnnotationProcessor {
                 long max = annotation.max();
                 ZoneId zone = ZoneId.of(annotation.zone());
 
+//                System.out.println("field.getType() = " + field.getType() + " => field.getType() == long.class = " + (field.getType() == long.class));
                 field.setAccessible(true); // чтобы можно было изменять финальные поля
                 if (min < max) {
                     try {
                         long rnd = min + (long) (random.nextDouble() * (max - min));
 //                        long rnd = random.nextLong(min, max);
-                        if (field.getType().isAssignableFrom(long.class)) {
+                        if (field.getType() == long.class) {
                             field.set(obj, rnd);
                         } else if (field.getType().isAssignableFrom(Instant.class)) {
                             Instant instant = Instant.ofEpochMilli(rnd);
