@@ -37,7 +37,7 @@ public class Main {
     public static void main(String[] args) {
 
         System.out.println("\u001B[34m");
-        HibernateUtil.buildSessionFactory();
+//        HibernateUtil.buildSessionFactory();
         ModelsDAO modelsDAO = new ModelsDAO();
         modelsDAO.saveModels();
 
@@ -180,6 +180,12 @@ public class Main {
         usersWithComments.stream().forEach(user -> System.out.println("User ID: " + user.getId() + ", Name: " + user.getUserName()));
 
 
-        HibernateUtil.shutdown();
+        // 3.5 Удалить все таблицы
+        System.out.println("\u001B[32m");
+        System.out.println("<=====================Удаление таблиц.=======================================================================================================>");
+        System.out.println("\u001B[33m");
+        modelsDAO.dropTables();
+
+//        HibernateUtil.shutdown();
     }
 }

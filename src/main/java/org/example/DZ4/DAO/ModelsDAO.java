@@ -13,12 +13,15 @@ import java.util.Map;
 
 public class ModelsDAO {
     public void saveModels() {
+        HibernateUtil.buildSessionFactory();
         try (Session session = HibernateUtil.getSession()) {
             Transaction transaction = null;
 
             try {
                 transaction = session.beginTransaction();
 
+
+                System.out.println("<=====================Создание таблицы User=======================================================================================================>");
                 for (int i = 0; i < 5; i++) {
                     User user = new User();
                     System.out.println("Создание пользователя с ID: " + user.getId() +
@@ -26,6 +29,7 @@ public class ModelsDAO {
                     session.save(user);
                 }
 
+                System.out.println("<=====================Создание таблицы Post=======================================================================================================>");
                 for (int i = 0; i < 5; i++) {
                     Post post = new Post();
                     System.out.println("Создание post с ID: " + post.getId() +
@@ -34,7 +38,7 @@ public class ModelsDAO {
                             " и date: " + post.getDate());
                     session.save(post);
                 }
-
+                System.out.println("<=====================Создание таблицы PostComment=======================================================================================================>");
                 for (int i = 0; i < 5; i++) {
                     PostComment postComment = new PostComment();
                     System.out.println("Создание postComment с ID: " + postComment.getId() +
@@ -133,6 +137,28 @@ public class ModelsDAO {
             return session.createQuery(hql, User.class)
                     .setParameter("userId", userId)
                     .list();
+        }
+    }
+    public void dropTables() {
+        HibernateUtil.buildSessionFactory();
+        try (Session session = HibernateUtil.getSession()) {
+            Transaction transaction = null;
+            try {
+                transaction = session.beginTransaction();
+                session.createNativeQuery("DROP TABLE IF EXISTS post_comment CASCADE").executeUpdate();
+                session.createNativeQuery("DROP TABLE IF EXISTS post CASCADE").executeUpdate();
+                session.createNativeQuery("DROP TABLE IF EXISTS users CASCADE").executeUpdate();
+                transaction.commit();
+                System.out.println("Базы данных удалены");
+            } catch (Exception e) {
+                if (transaction != null) {
+                    transaction.rollback();
+                }
+                e.printStackTrace();
+            } finally {
+                session.close();
+                HibernateUtil.shutdown();
+            }
         }
     }
 }
