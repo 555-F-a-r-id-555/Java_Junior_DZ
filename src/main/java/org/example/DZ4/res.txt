@@ -1,0 +1,68 @@
+Hibernate: select u1_0.id, u1_0.name from users as u1_0
+User ID: 1, Name: Vasya
+User ID: 2, Name: Petya
+User ID: 3, Name: Lena
+User ID: 4, Name: Lena
+User ID: 5, Name: Petya
+
+<=====================Вывод таблици Post=======================================================================================================>
+Hibernate: select p1_0.id, p1_0.post_date, p1_0.title, p1_0.user_id from post as p1_0
+Post_ID: 1, Title: Tile#4, UserID: 4 и Date: 2026-06-25 02:12:13.593
+Post_ID: 2, Title: Tile#4, UserID: 2 и Date: 2025-02-23 09:29:37.131
+Post_ID: 3, Title: Tile#1, UserID: 3 и Date: 2024-07-12 11:54:34.088
+Post_ID: 4, Title: Tile#2, UserID: 4 и Date: 2024-11-02 18:54:57.368
+Post_ID: 5, Title: Tile#5, UserID: 1 и Date: 2026-01-26 10:14:08.065
+
+<=====================Вывод таблици PostComment=======================================================================================================>
+
+Hibernate: select p1_0.id, p1_0.comment_date, p1_0.post_id, p1_0.text, p1_0.user_id from post_comment as p1_0
+PostComment_ID: 1, Text: Text#3, Post_ID: 3, User_ID: 4 и Date: 2025-05-12 21:30:50.188
+PostComment_ID: 2, Text: Text#2, Post_ID: 5, User_ID: 4 и Date: 2025-03-23 17:05:30.872
+PostComment_ID: 3, Text: Text#2, Post_ID: 1, User_ID: 5 и Date: 2024-06-20 17:13:46.094
+PostComment_ID: 4, Text: Text#5, Post_ID: 1, User_ID: 2 и Date: 2024-04-04 19:28:46.984
+PostComment_ID: 5, Text: Text#1, Post_ID: 5, User_ID: 4 и Date: 2024-12-14 17:20:36.188
+
+<=====================3.1.1 Загрузить все комментарии (post_comment) по определенной публикации (post)=======================================================================================================>
+
+Hibernate: select p1_0.id, p1_0.comment_date, p1_0.post_id, p1_0.text, p1_0.user_id from post_comment as p1_0 where p1_0.post_id = ?
+Comment_ID: 3, Text: Text#2, Post_ID: 1, User_ID: 5, Date: 2024-06-20 17:13:46.094
+Comment_ID: 4, Text: Text#5, Post_ID: 1, User_ID: 2, Date: 2024-04-04 19:28:46.984
+
+<=====================3.1.2 Вывести все комментарии (post_comment) для всех публикаций (post)=======================================================================================================>
+
+Hibernate: select p1_0.id, p1_0.post_date, p1_0.title, p1_0.user_id from post as p1_0
+Hibernate: select p1_0.id, p1_0.comment_date, p1_0.post_id, p1_0.text, p1_0.user_id from post_comment as p1_0 where p1_0.post_id = ?
+Hibernate: select p1_0.id, p1_0.comment_date, p1_0.post_id, p1_0.text, p1_0.user_id from post_comment as p1_0 where p1_0.post_id = ?
+Hibernate: select p1_0.id, p1_0.comment_date, p1_0.post_id, p1_0.text, p1_0.user_id from post_comment as p1_0 where p1_0.post_id = ?
+Hibernate: select p1_0.id, p1_0.comment_date, p1_0.post_id, p1_0.text, p1_0.user_id from post_comment as p1_0 where p1_0.post_id = ?
+Hibernate: select p1_0.id, p1_0.comment_date, p1_0.post_id, p1_0.text, p1_0.user_id from post_comment as p1_0 where p1_0.post_id = ?
+Post ID: 4, Title: Tile#2, User ID: 4, Date: 2024-11-02 18:54:57.368
+Post ID: 3, Title: Tile#1, User ID: 3, Date: 2024-07-12 11:54:34.088
+  Comment ID: 1, Text: Text#3, Post ID: 3, User ID: 4, Date: 2025-05-12 21:30:50.188
+Post ID: 2, Title: Tile#4, User ID: 2, Date: 2025-02-23 09:29:37.131
+Post ID: 1, Title: Tile#4, User ID: 4, Date: 2026-06-25 02:12:13.593
+  Comment ID: 3, Text: Text#2, Post ID: 1, User ID: 5, Date: 2024-06-20 17:13:46.094
+  Comment ID: 4, Text: Text#5, Post ID: 1, User ID: 2, Date: 2024-04-04 19:28:46.984
+Post ID: 5, Title: Tile#5, User ID: 1, Date: 2026-01-26 10:14:08.065
+  Comment ID: 2, Text: Text#2, Post ID: 5, User ID: 4, Date: 2025-03-23 17:05:30.872
+  Comment ID: 5, Text: Text#1, Post ID: 5, User ID: 4, Date: 2024-12-14 17:20:36.188
+
+<=====================3.2 Загрузить все публикации(post) по идентификатору юзера(user)=======================================================================================================>
+
+Hibernate: select p1_0.id, p1_0.post_date, p1_0.title, p1_0.user_id from post as p1_0 where p1_0.user_id = ?
+Post_ID: 1, Title: Tile#4, User_ID: 4 и Date: 2026-06-25 02:12:13.593
+Post_ID: 4, Title: Tile#2, User_ID: 4 и Date: 2024-11-02 18:54:57.368
+
+<=====================3.3 ** Загрузить все комментарии(post_comment) по идентификатору юзера(user)=======================================================================================================>
+
+Hibernate: select p1_0.id, p1_0.comment_date, p1_0.post_id, p1_0.text, p1_0.user_id from post_comment as p1_0 where p1_0.user_id = ?
+Comment_ID: 1, Text: Text#3, Post_ID: 3, User_ID: 4, Date: 2025-05-12 21:30:50.188
+Comment_ID: 2, Text: Text#2, Post_ID: 5, User_ID: 4, Date: 2025-03-23 17:05:30.872
+Comment_ID: 5, Text: Text#1, Post_ID: 5, User_ID: 4, Date: 2024-12-14 17:20:36.188
+
+<=====================3.4 **** По идентификатору юзера(user) загрузить юзеров(List<user>), под чьими публикациями он оставлял комменты.=======================================================================================================>
+
+Hibernate: select distinct u1_0.id, u1_0.name from post_comment as p1_0 inner join post as p2_0 on p1_0.post_id = p2_0.id inner join users as u1_0 on p2_0.user_id = u1_0.id where p1_0.user_id = ?
+Users whose posts have comments from user with ID: 4
+User ID: 1, Name: Vasya
+User ID: 3, Name: Lena

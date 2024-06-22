@@ -10,7 +10,7 @@ public class HibernateUtil {
     private static StandardServiceRegistry registry;
     private static SessionFactory sessionFactory;
 
-    public static void buildSessionFactory(){
+    public static void buildSessionFactory() {
         try {
             registry = new StandardServiceRegistryBuilder()
                     .configure()
@@ -20,7 +20,7 @@ public class HibernateUtil {
                     .buildSessionFactory();
         } catch (Exception e) {
             StandardServiceRegistryBuilder.destroy(registry);
-            throw new ExceptionInInitializerError("Initial SessionFactory creation failed" + e);
+            throw new ExceptionInInitializerError("Не удалось создать SessionFactory " + e);
         }
     }
 
@@ -32,7 +32,7 @@ public class HibernateUtil {
         if (sessionFactory != null) {
             sessionFactory.close();
         }
-        StandardServiceRegistryBuilder.destroy(registry);
+//        StandardServiceRegistryBuilder.destroy(registry);
     }
 }
 

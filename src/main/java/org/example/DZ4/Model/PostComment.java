@@ -43,7 +43,7 @@ public class PostComment {
         return text;
     }
 
-    public void setText(String text,Long postId) {
+    public void setText(String text, Long postId) {
         this.text = text + "#" + ThreadLocalRandom.current().nextLong(1, postId);
     }
 
@@ -73,7 +73,7 @@ public class PostComment {
 
     public PostComment() {
         setId(count++);
-        setText("Text",numberOfUsers);
+        setText("Text", numberOfUsers);
         setPostId(numberOfUsers);
         setUserId(numberOfUsers);
         RandomAnnotationProcessor.processAnnotationForData(this);
