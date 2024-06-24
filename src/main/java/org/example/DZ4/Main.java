@@ -186,6 +186,6 @@ public class Main {
         System.out.println("\u001B[33m");
         modelsDAO.dropTables();
 
-//        HibernateUtil.shutdown();
+        HibernateUtil.shutdown();
     }
 }

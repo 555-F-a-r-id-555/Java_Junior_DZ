@@ -1,5 +1,7 @@
 package org.example.DZ4V2.Dao;
 
+import org.example.DZ4V2.DateCreation.ObjectCreator;
+import org.example.DZ4V2.DateCreation.RandomAnnotationProcessor;
 import org.example.DZ4V2.Models.Post;
 import org.example.DZ4V2.Models.PostComment;
 import org.example.DZ4V2.Models.User;
@@ -7,12 +9,29 @@ import org.example.DZ4V2.Util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class ModelsDao {
+
+
+    public Timestamp getRandomDate() {
+        long min = 1704067200000L;  // 1 января 2024 года UTC0
+        long max = 1735689600000L;  // 1 января 2025 года UTC0
+        long randomMillisSinceEpoch = ThreadLocalRandom.current().nextLong(min, max);
+        return Timestamp.from(Instant.ofEpochMilli(randomMillisSinceEpoch));
+    }
+
+
     public void saveModels() {
+
         HibernateUtil.buildSessionFactory();
         try (Session session = HibernateUtil.getSession()) {
             Transaction transaction = null;
@@ -23,34 +42,56 @@ public class ModelsDao {
                 System.out.println("<=====================Создание таблицы User=======================================================================================================>");
                 for (int i = 0; i < 5; i++) {
                     User user = new User();
-                    System.out.println("Создание пользователя с ID: " + user.getId() +
-                            " и именем: " + user.getUserName());
+                    user.setUserName("User" + (i + 1)); // Установка имени пользователя
+                    System.out.println("Создание пользователя с именем: " + user.getUserName());
                     session.save(user);
                 }
 
-                System.out.println("<=====================Создание таблицы Post=======================================================================================================>");
+                // Коммитим транзакцию после создания пользователей
+                transaction.commit();
+
+                // Начинаем новую транзакцию для создания постов и комментариев
+                transaction = session.beginTransaction();
+
                 List<User> users = getUsers();
+                if (users.isEmpty()) {
+                    throw new RuntimeException("Список пользователей пустой. Не удалось создать записи Post и PostComment.");
+                }
+
+                System.out.println("<=====================Создание таблицы Post=======================================================================================================>");
                 for (int i = 0; i < 5; i++) {
                     Post post = new Post();
+                    post.setTitle("Title" + (i + 1)); // Установка заголовка поста
                     post.setUser(users.get(i % users.size())); // Установка пользователя для поста
-                    System.out.println("Создание post с ID: " + post.getId() +
-                            ", с title: " + post.getTitle() +
+//                    post.setDate(LocalDateTime.now());
+                    System.out.println("Создание поста с заголовком: " + post.getTitle() +
                             ", с userID: " + post.getUser().getId() +
-                            " и date: " + post.getDate());
+                            " и датой: " + post.getDate());
                     session.save(post);
                 }
 
-                System.out.println("<=====================Создание таблицы PostComment=======================================================================================================>");
+                // Коммитим транзакцию после создания постов
+                transaction.commit();
+
+                // Начинаем новую транзакцию для создания комментариев
+                transaction = session.beginTransaction();
+
                 List<Post> posts = getPosts();
+                if (posts.isEmpty()) {
+                    throw new RuntimeException("Список постов пустой. Не удалось создать записи PostComment.");
+                }
+
+                System.out.println("<=====================Создание таблицы PostComment=======================================================================================================>");
                 for (int i = 0; i < 5; i++) {
                     PostComment postComment = new PostComment();
+                    postComment.setText("Comment" + (i + 1)); // Установка текста комментария
                     postComment.setPost(posts.get(i % posts.size())); // Установка поста для комментария
                     postComment.setUser(users.get(i % users.size())); // Установка пользователя для комментария
-                    System.out.println("Создание postComment с ID: " + postComment.getId() +
-                            ", с текстом: " + postComment.getText() +
+//                    postComment.setDate(getRandomDate());
+                    System.out.println("Создание комментария с текстом: " + postComment.getText() +
                             ", с Post ID: " + postComment.getPost().getId() +
                             ", с user ID: " + postComment.getUser().getId() +
-                            " и date: " + postComment.getDate());
+                            " и датой: " + postComment.getDate());
                     session.save(postComment);
                 }
 

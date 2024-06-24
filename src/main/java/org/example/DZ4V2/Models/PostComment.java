@@ -5,6 +5,7 @@ import org.example.DZ4V2.DateCreation.RandomDate;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.concurrent.ThreadLocalRandom;
 
 @Entity
@@ -29,8 +30,9 @@ public class PostComment {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @Column(name = "comment_date")
+
     @RandomDate(min = 1704067200000L, max = 1794978900000L)
+    @Column(name = "post_date", columnDefinition = "TIMESTAMP")
     private Timestamp date;
 
     public void setId(Long id) {
@@ -76,7 +78,12 @@ public class PostComment {
     public PostComment() {
         setId(count++);
         setText("Text", numberOfUsers);
-        RandomAnnotationProcessor.processAnnotationForData(this);
+//        RandomAnnotationProcessor.processAnnotationForData(this);
+        this.date = Timestamp.valueOf(LocalDateTime.of(2024, 1, 1, 0, 0));
+    }
+
+    public void setText(String s) {
+        this.text = s;
     }
 }
 

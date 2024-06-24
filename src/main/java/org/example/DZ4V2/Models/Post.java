@@ -6,6 +6,7 @@ import org.example.DZ4V2.DateCreation.RandomDate;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -27,11 +28,15 @@ public class Post {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @Setter
-    @Column(name = "post_date")
+
     @RandomDate(min = 1704067200000L, max = 1794978900000L)
+    @Column(name = "post_date", columnDefinition = "TIMESTAMP")
     private Timestamp date;
 
+    @PrePersist
+    protected void onCreate() {
+        RandomAnnotationProcessor.processAnnotationForData(this);
+    }
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<PostComment> comments;
 
@@ -59,6 +64,10 @@ public class Post {
         return date;
     }
 
+    public void setDate(Timestamp date) {
+        this.date = date;
+    }
+
     public List<PostComment> getComments() {
         return comments;
     }
@@ -70,6 +79,11 @@ public class Post {
     public Post() {
         setId(count++);
         setTitle("Tile", numberOfUsers);
-        RandomAnnotationProcessor.processAnnotationForData(this);
+//        RandomAnnotationProcessor.processAnnotationForData(this);
+        this.date = Timestamp.valueOf(LocalDateTime.of(2024, 1, 1, 0, 0));
+    }
+
+    public void setTitle(String s) {
+        this.title = s;
     }
 }

@@ -112,10 +112,10 @@ public class Main {
 
         usersWithComments.forEach(user -> System.out.println("User ID: " + user.getId() + ", Name: " + user.getUserName()));
 
-        // Удалить все таблицы
-        System.out.println("\u001B[32m");
-        System.out.println("<=====================Удаление таблиц=======================================================================================================>");
-        System.out.println("\u001B[33m");
-        modelsDao.dropTables();
+//        // Удалить все таблицы
+//        System.out.println("\u001B[32m");
+//        System.out.println("<=====================Удаление таблиц=======================================================================================================>");
+//        System.out.println("\u001B[33m");
+//        modelsDao.dropTables();
     }
 }
