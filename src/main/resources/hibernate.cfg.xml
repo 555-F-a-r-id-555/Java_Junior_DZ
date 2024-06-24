@@ -17,6 +17,9 @@
         <mapping class="org.example.DZ4.Model.User"/>
         <mapping class="org.example.DZ4.Model.Post"/>
         <mapping class="org.example.DZ4.Model.PostComment"/>
+<!--        <mapping class="org.example.DZ4V2.Models.User"/>-->
+<!--        <mapping class="org.example.DZ4V2.Models.Post"/>-->
+<!--        <mapping class="org.example.DZ4V2.Models.PostComment"/>-->
 
     </session-factory>
 </hibernate-configuration>
