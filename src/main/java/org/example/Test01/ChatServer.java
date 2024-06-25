@@ -72,7 +72,7 @@ public class ChatServer {
                     sendToFriend(request.getRecipient(), request.getMessage());
                     break;
                 case "send_to_all":
-                    sendToAll(request.getMessage());
+                    sendToAll(request.getSender(),request.getMessage());
                     break;
                 case "get_clients":
                     sendClientsList();
@@ -91,9 +91,12 @@ public class ChatServer {
             }
         }
 
-        private void sendToAll(String message) {
+        private void sendToAll(String sender,String message) {
             for (ClientHandler client : clients) {
-                client.out.println("Сообщение всем от " + login + ": " + message);
+                if (!client.login.equals(sender)) {
+                    client.out.println("Сообщение всем от " + login + ": " + message);
+                }
+
             }
         }
 
